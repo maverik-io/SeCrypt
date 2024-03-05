@@ -3,6 +3,12 @@ from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from cryptography.fernet import Fernet
 
+
+class InvalidPasswordError(Exception):
+    def __init__(self, *args: object) -> None:
+        super().__init__(*args)
+
+
 class Encryption:
 
     def __init__(self, password):
@@ -16,7 +22,6 @@ class Encryption:
         
         key = base64.urlsafe_b64encode(kdf.derive(password))
         
-
         self.fernet = Fernet(key)
 
     def encrypt(self, data):
